@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Billing System</title>
+    </head>
+    <body>
+        <div>
+            <h2>THis is the psudo-code solution to the question sent to my mail</h2>
+            <p>Making 10 000 API calls at once might kill your CPU/RAM, if you don't have lots of it, and It's not a good practice even though you have lot of cpu.</p>
+
+            The method I'm using in this pseudo-code is that I would run 20 API calls asynchronously, when done, continues with the next 20 till all the billing is done.
+
+            <h5>Procedure.</h5>
+            => First query 20 users<br>
+
+            => Loop through those 20 users(20 users per batch @ 1.6sec is possible because we using asynchronously)<br>
+
+            => Make an async call to the API for billing those 20 users(Using asyn means you making all your request at once but one request is not waiting for another request to complete before it start)<br>
+
+            Based on the time lag of 1.6sec for a single user
+            ** 10,000 users should take about 4.5 hrs to bill them. while ** While 100,000 users will take about 44.5 hrs
+
+            <h5>Last Opinion</h5>
+            let's assume that we have 2 secs to make each request, I'm approximating 1.6s now (we could have network latency) that means we can make about 1,800 trips to the API under an hour (3600 / 2) 3600sec = 1hr<br>
+
+            then we need to spread out the number of user billed per two seconds equally, between the 1800 trips that would be approximately 6 users per batch<br>
+
+            <h5>let's test:</h5>
+
+            In every 2 seconds, we bill 6 users<br>
+
+            since there are 1800 of 2 seconds in hour, that means we can process 6* 1800 users in an hour<br>
+
+            <p>10800 users/ per hour</p>
+            Don't let not forget that the process or approached used here is Asynchronously meaning all request are taking place at the same time.<br>
+
+            <p>On the other hand since we using Asynchronously</p>
+            Using Process Control in PHP you can make let's say 100 api calls to the third party app ... For each api call fork a process from the main process.<br>
+
+            If an api call takes 1.6s to complete ... running 100 calls in parallel will take about 2s to complete. Reference: pcntl functions
+        </div>
+    </body>
+</html>
